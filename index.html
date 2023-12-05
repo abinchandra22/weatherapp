@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body style="background: rgb(160,249,254);
+background: radial-gradient(circle, rgba(160,249,254,1) 0%, rgba(51,102,249,1) 90%);">
+    <!-- main card -->
+    <div id="cardid" class="card container  p-5">
+        <!-- searchbar -->
+        <div class="search" style="background-color: rgb(68, 143, 247);">
+            <input id="data" type="text" placeholder="Enter Your City" class="form-control">
+            <button onclick="weathersearch()" class="but" type="button"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <img src="./img/image_processing20210902-8898-1ozzakp.gif" class="card-img-top" alt="...">
+        <div id="answer" class="container w-25 p-3  ">
+        </div>
+        <!-- row 1 -->
+        <div id="vysali" class="card-body">
+            <!-- card1 -->
+            <div class="card" style="width: 18rem;">
+                <img src="./img/temp.png" class="card-img-top" alt="..." style="width: 70px; margin-left: 30%; ">
+                <br>
+                <h6>Temperature in kelvin</h6>
+                <div id="result1" class="card-body container  p-3 ">
+                </div>
+            </div>
+            <!-- card2 -->
+            <div class="card" style="width: 18rem;">
+                <img src="./img/sunny.png" class="card-img-top" alt="..." style="width: 70px; margin-left: 30%;">
+                <br>
+                <h6>Weather</h6>
+                <div id="result2" class="card-body container  p-3 ">
+                </div>
+            </div>
+        </div>
+        <!-- row 2 -->
+        <div id="vysali" class="card-body ">
+            <!-- card3-->
+            <div class="card" style="width: 18rem;">
+                <img src="./img/wind3.png" class="card-img-top" alt="..." style="width: 70px; margin-left: 30%;">
+                <br>
+                <h6>Wind</h6>
+                <div id="result3" class="card-body container  p-3 ">
+                </div>
+            </div>
+            <!-- stop -->
+        </div>
+    </div>
+</body>
+
+<script>
+    function weathersearch() {
+        country = data.value
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${country}&appid=5b4bee0ba241d092159faf007e166080`)
+            .then(Response => Response.json()).then(out => console.log(displaydata(out)));
+        //data displaying
+        function displaydata(dataarray) {
+            cname = dataarray.name
+            temp = dataarray.main.temp
+            mintemp = dataarray.main.temp_min
+            maxtemp = dataarray.main.temp_max
+            pressure = dataarray.main.pressure
+            description = dataarray.weather[0].description
+            main = dataarray.weather[0].
+                visibility = dataarray.visibility
+            humidity = dataarray.main.humidity
+            wind = dataarray.wind.speed
+            cloud = dataarray.clouds.all
+            icon = dataarray.weather[0].icon
+            //results
+            //r1
+            answer.innerHTML =
+                ` <h2 style="text-align: center;">${cname}</h2>`
+            //r2 temp
+            result1.innerHTML =
+                ` <div class="card" style="width: 14rem;" >
+  <div class="card-body">
+    <h5 >Temperature-${temp}K</h5>
+    <h5 >MaxTemperature-${maxtemp}K</h5>
+    <h5 >MinTemperature-${mintemp}K</h5>
+    <h5 >Humidity -${humidity}%</h5>
+  </div>
+</div>`
+            //r3 weather
+            result2.innerHTML =
+                `<div class="card" style="width: 14rem;">
+  <div class="card-body">
+    <h5>Today ${main}</h5>
+    <h5>It's ${description}</h5>
+
+  </div>
+</div>`
+            //r4 wind & clouds
+            result3.innerHTML =
+                ` <div class="card" style="width: 14rem;">
+  <div class="card-body">
+    <h5>Speed-${wind}m/s</h5>
+    <h5>Clouds-${cloud}%</h5>
+    <h5>Pressure-${pressure}hPa</h5>
+  </div>
+</div>`
+        }
+    }
+</script>
+
+</html>
